@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/select'
 import StatusBadge from '@/components/StatusBadge'
 import { cn } from '@/lib/utils'
+import { apiFetch } from '@/lib/api'
 import type { Query, QueryHistory, QueryStatus } from '@/types'
 import { QUERY_TYPE_LABELS } from '@/lib/constants'
 
@@ -43,8 +44,7 @@ export default function QueryDetailSheet({ query, open, onClose, onUpdate }: Que
   useEffect(() => {
     if (!query?.id || !open) return
     let mounted = true
-    fetch(`/api/queries/${query.id}`)
-      .then(r => r.json())
+    apiFetch<{ data: { history: typeof history } }>(`/queries/${query.id}`)
       .then(json => { if (mounted) setHistory(json.data?.history ?? []) })
       .catch(() => {})
     return () => { mounted = false }

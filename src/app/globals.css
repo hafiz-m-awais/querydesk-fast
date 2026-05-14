@@ -4,30 +4,49 @@
 
 @layer base {
   :root {
-    --background:  0 0% 100%;
-    --foreground:  222.2 84% 4.9%;
-    --card:        0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover:      0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary:     155 59% 26%;    /* FAST green */
-    --primary-foreground: 0 0% 100%;
-    --secondary:   210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted:       210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent:      210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
+    --background:        210 20% 98%;
+    --foreground:        222 30% 12%;
+    --card:              0 0% 100%;
+    --card-foreground:   222 30% 12%;
+    --popover:           0 0% 100%;
+    --popover-foreground:222 30% 12%;
+    --primary:           155 59% 26%;   /* FAST green */
+    --primary-foreground:0 0% 100%;
+    --secondary:         210 20% 94%;
+    --secondary-foreground:222 30% 20%;
+    --muted:             210 20% 94%;
+    --muted-foreground:  215 16% 50%;
+    --accent:            210 20% 92%;
+    --accent-foreground: 222 30% 20%;
+    --destructive:       0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-    --border:      214.3 31.8% 91.4%;
-    --input:       214.3 31.8% 91.4%;
-    --ring:        155 59% 26%;
-    --radius:      0.5rem;
+    --border:            214 20% 88%;
+    --input:             214 20% 88%;
+    --ring:              155 59% 26%;
+    --radius:            0.6rem;
   }
 }
 
 @layer base {
   * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3, h4, h5 { @apply tracking-tight; }
+}
+
+@layer components {
+  .page-header {
+    @apply border-b bg-white px-6 py-5 mb-6;
+  }
+  .page-header h1 {
+    @apply text-2xl font-bold text-foreground;
+  }
+  .page-header p {
+    @apply text-sm text-muted-foreground mt-0.5;
+  }
+  .section-card {
+    @apply bg-white border rounded-xl shadow-sm;
+  }
 }

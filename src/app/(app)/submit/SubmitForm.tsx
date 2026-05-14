@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import AttachmentUpload from '@/components/AttachmentUpload'
+import { apiFetch } from '@/lib/api'
 import type { Course, AttachmentPayload } from '@/types'
 import type { QueryType } from '@/lib/constants'
 
@@ -111,14 +112,11 @@ export default function SubmitForm({ courses }: SubmitFormProps) {
       const body: Record<string, unknown> = { ...data }
       if (attachment) body.attachment = attachment
 
-      const res = await fetch('/api/queries', {
+      const json = await apiFetch<{ data?: { reference_id: string } }>('/queries', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        body,
       })
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error ?? 'Submission failed')
-      setReferenceId(json.data?.reference_id)
+      setReferenceId(json.data?.reference_id ?? null)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unknown error')
     } finally {

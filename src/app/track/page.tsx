@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { APP_NAME } from '@/lib/constants'
+import { apiFetch } from '@/lib/api'
 import type { QueryStatus, QueryType } from '@/lib/constants'
 
 interface TrackRow {
@@ -35,9 +36,10 @@ export default function TrackPage() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch(`/api/track?roll=${encodeURIComponent(roll.trim())}`)
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error ?? 'Lookup failed')
+      const json = await apiFetch<{ data: TrackRow[] }>(
+        `/track?roll=${encodeURIComponent(roll.trim())}`,
+        { public: true },
+      )
       setResults(json.data)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Lookup failed')

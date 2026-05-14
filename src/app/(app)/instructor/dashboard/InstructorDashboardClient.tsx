@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import QueryTable from '@/components/QueryTable'
 import QueryDetailSheet from '@/components/QueryDetailSheet'
+import { apiFetch } from '@/lib/api'
 import type { Query, QueryStatus } from '@/types'
 
 export default function InstructorDashboardClient() {
@@ -19,8 +20,7 @@ export default function InstructorDashboardClient() {
       const params = new URLSearchParams({ page: String(p), limit: '20' })
       if (f.status)    params.set('status', f.status)
       if (f.course_id) params.set('course_id', f.course_id)
-      const res = await fetch(`/api/queries?${params}`)
-      const json = await res.json()
+      const json = await apiFetch<{ data: Query[]; total: number }>(`/queries?${params}`)
       setQueries(json.data ?? [])
       setTotal(json.total ?? 0)
     } finally {
@@ -31,19 +31,17 @@ export default function InstructorDashboardClient() {
   useEffect(() => { fetchQueries(page, filters) }, [page, filters, fetchQueries])
 
   const handleUpdate = useCallback(async (id: string, status: QueryStatus, notes?: string) => {
-    await fetch(`/api/queries/${id}`, {
+    await apiFetch(`/queries/${id}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status, instructor_notes: notes }),
+      body: { status, instructor_notes: notes },
     })
     fetchQueries(page, filters)
   }, [page, filters, fetchQueries])
 
   const handleBulk = useCallback(async (ids: string[], status: QueryStatus) => {
-    await fetch('/api/queries/bulk', {
+    await apiFetch('/queries/bulk', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ids, status }),
+      body: { query_ids: ids, status },
     })
     fetchQueries(page, filters)
   }, [page, filters, fetchQueries])

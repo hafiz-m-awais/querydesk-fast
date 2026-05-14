@@ -13,6 +13,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { apiFetch } from '@/lib/api'
 import type { Campus, Department, Profile } from '@/types'
 
 const schema = z.object({
@@ -62,15 +63,7 @@ export default function ProfileForm({ profile, campuses, departments }: ProfileF
     setSaving(true)
     setError(null)
     try {
-      const res = await fetch('/api/profile', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      if (!res.ok) {
-        const json = await res.json()
-        throw new Error(json.error ?? 'Failed to save profile')
-      }
+      await apiFetch('/profile', { method: 'PATCH', body: data })
       router.push('/')
       router.refresh()
     } catch (e) {

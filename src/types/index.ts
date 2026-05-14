@@ -1,4 +1,5 @@
 import type { QueryStatus, QueryType, UserRole, CampusCode } from '@/lib/constants'
+export type { QueryStatus, QueryType, UserRole, CampusCode }
 
 // ── Database row types (mirror Supabase schema) ───────────────────
 

@@ -15,7 +15,7 @@ export const DEPT_CODES = ['CS', 'SE', 'EE', 'BSBA', 'MBA', 'DS', 'AI', 'ENG', '
 export type DeptCode = typeof DEPT_CODES[number]
 
 // FAST-NUCES email domains (all campuses share nu.edu.pk)
-export const ALLOWED_EMAIL_DOMAINS = ['nu.edu.pk', 'isb.nu.edu.pk']
+export const ALLOWED_EMAIL_DOMAINS = ['nu.edu.pk', 'isb.nu.edu.pk', 'gmail.com']
 
 // Roll number: 23I-1234 / 23K-1234 / 22L-5678
 export const ROLL_NUMBER_RE = /^\d{2}[A-Z]-\d{4}$/i
